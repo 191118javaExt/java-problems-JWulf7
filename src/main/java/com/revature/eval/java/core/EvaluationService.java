@@ -1,6 +1,8 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +17,16 @@ public class EvaluationService {
 	 */
 	public String reverse(String string) {
 		
-		return "";
+		char[] answer = new char[string.length()];
+		
+		for(int i = 0; i < answer.length; i++) {
+			answer[(answer.length) - (i+1)] = string.charAt(i);
+		}
+		
+	
+		return String.valueOf(answer);
+		
+		
 	}
 
 	/**
@@ -27,8 +38,28 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+
+		String acr = new String("");
+		acr += phrase.charAt(0);
+		int i = 1;
+		int j = 1;
+		while(i < phrase.length() && i != 0) {
+			String remainder = phrase.substring(i + 1 + j );  // maybe take away + 1  ~~~ also added + j 
+			acr += phrase.charAt(remainder.indexOf(" ") + 1);
+			j = i + 1;
+			i += (remainder.indexOf(" ") +1 + j);
+			
+		}
+		
+		
+		/*
+		for(int i = 0; i < phrase.length(); i++) {
+			i += phrase.indexOf(" ") + 1
+		}
+		*/
+			
+			
+		return acr.toUpperCase();
 	}
 
 	/**
@@ -81,18 +112,31 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+			
+			if(((this.getSideOne()) == (this.getSideTwo()) && (this.getSideOne()) == (this.getSideThree()))) {
+				return true;
+			} else {
 			return false;
+			}
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
+
+			if(((this.getSideOne()) == (this.getSideTwo())) || ((this.getSideOne()) == (this.getSideThree())) || ((this.getSideTwo()) == (this.getSideThree()))) {
+				return true;
+			} else {
 			return false;
+			}
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+
+			if(((this.getSideOne()) == (this.getSideTwo()) && (this.getSideOne()) == (this.getSideThree()))) {
+				return false;
+			} else {
+			return true;
+			}
+			
 		}
 
 	}
@@ -113,8 +157,21 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		//Initialize stuff
+		Integer score = 0;
+		Hashtable<Character, Integer> h = new Hashtable();
+		h.put('A', 1); h.put('E', 1); h.put('I', 1); h.put('O', 1); h.put('U', 1); 
+		h.put('L', 1); h.put('N', 1); h.put('R', 1); h.put('S', 1); h.put('T', 1); 
+		h.put('D', 2); h.put('G', 2); h.put('B', 3); h.put('C', 3); h.put('M', 3); 
+		h.put('P', 3); h.put('F', 4); h.put('H', 4); h.put('V', 4); h.put('W', 4); 
+		h.put('Y', 4); h.put('K', 5); h.put('J', 8); h.put('X', 8); h.put('Q', 10); h.put('Z', 10); 
+		
+		String word = string.toUpperCase();
+		
+		for(int i = 0; i < word.length(); i++) {
+			score += h.get(word.charAt(i));
+		}
+		return (int)score;
 	}
 
 	/**
