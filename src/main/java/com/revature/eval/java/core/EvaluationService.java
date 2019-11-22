@@ -2,6 +2,7 @@ package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -207,6 +208,28 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
+		// argument exceptions not graded
+		// PLAN:
+		// iterate through every position of the string loop?
+		// nest an if statement that only accept digits 0-9
+			// create a new string with only numbers
+		// 
+		// 
+		String number = new String();
+		for(int i = 0; i < string.length(); i++) {
+			if((string.charAt(i) == 0) || (string.charAt(i) == 1) || (string.charAt(i) == 2)
+					|| (string.charAt(i) == 3) || (string.charAt(i) == 4) || (string.charAt(i) == 5)
+					|| (string.charAt(i) == 6) || (string.charAt(i) == 7) || (string.charAt(i) == 8)
+					|| (string.charAt(i) == 9))  {
+				number += string.charAt(i);
+			}
+		}
+		//now limit the number of digits
+		String numberLimit = new String();
+		for(int i = 0; i < 11; i++) {
+			numberLimit += number.charAt(i);
+		}
+		
 		return null;
 	}
 
@@ -220,8 +243,28 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		// create a Map variable (for return type) of HashMap which will store the answer
+		Map<String, Integer> count = new HashMap<>();
+		
+		// isolate each word
+		
+		//String eachWord2 = string.replace("\n", " ");
+		//String eachWord1 = eachWord2.replace(",", " ");
+		// splits the string on everything not a word and creates a string array
+		String[] eachWord = string.split("\\W+");
+		
+		//put each word into a map
+		for(int i = 0; i < eachWord.length; i++) {
+			if(count.containsKey(eachWord[i])) {
+				count.put(eachWord[i], (count.get(eachWord[i])) +1);
+			} else {
+				count.put(eachWord[i], 1);
+			}
+			
+		}
+		
+		return count;
 	}
 
 	/**
@@ -259,6 +302,8 @@ public class EvaluationService {
 	 * binary search is a dichotomic divide and conquer search algorithm.
 	 * 
 	 */
+	
+	// 7 won't be graded
 	static class BinarySearch<T> {
 		private List<T> sortedList;
 
