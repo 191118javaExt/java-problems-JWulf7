@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -9,6 +10,10 @@ import java.util.Map;
 
 public class EvaluationService {
 
+	/*
+	 * Completed:1, , 3, 4, 5, 6, 7 not required, , 9, 10, 11
+	 */
+	
 	/**
 	 * 1. Without using the StringBuilder or StringBuffer class, write a method that
 	 * reverses a String. Example: reverse("example"); -> "elpmaxe"
@@ -217,20 +222,25 @@ public class EvaluationService {
 		// 
 		String number = new String();
 		for(int i = 0; i < string.length(); i++) {
-			if((string.charAt(i) == 0) || (string.charAt(i) == 1) || (string.charAt(i) == 2)
-					|| (string.charAt(i) == 3) || (string.charAt(i) == 4) || (string.charAt(i) == 5)
-					|| (string.charAt(i) == 6) || (string.charAt(i) == 7) || (string.charAt(i) == 8)
-					|| (string.charAt(i) == 9))  {
+			if((string.charAt(i) == '0') || (string.charAt(i) == '1') || (string.charAt(i) == '2')
+					|| (string.charAt(i) == '3') || (string.charAt(i) == '4') || (string.charAt(i) == '5')
+					|| (string.charAt(i) == '6') || (string.charAt(i) == '7') || (string.charAt(i) == '8')
+					|| (string.charAt(i) == '9'))  {
 				number += string.charAt(i);
 			}
 		}
+		
+		if(number.length() > 11) {
+			throw new IllegalArgumentException("This number is too long");
+		}
+		/*
 		//now limit the number of digits
 		String numberLimit = new String();
-		for(int i = 0; i < 11; i++) {
+		for(int i = 0; i < 11 | i < numberLimit.length(); i++) {
 			numberLimit += number.charAt(i);
 		}
-		
-		return null;
+		*/
+		return number;
 	}
 
 	/**
@@ -364,9 +374,24 @@ public class EvaluationService {
 	 * @param input
 	 * @return
 	 */
-	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
+	public static boolean isArmstrongNumber(int input) {
+		
+		int length = Integer.toString(input).length();
+		int x = input;
+		int calc = 0;
+		int z = 0;
+		int y = 0;
+		while(z < length) {
+			y = input % 10;
+			calc += (Math.pow(y, length));
+			z++;
+			input = input / 10;
+		}
+		if(calc == x) {
+			return true;
+		} else {
 		return false;
+		}
 	}
 
 	/**
@@ -380,8 +405,19 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		// start a list
+		List<Long> theList = new ArrayList<Long>();
+		//instantiate original number
+		Long orig = l;
+		for(Long i=2L; i <= orig/2; i++) {
+			if(l%i == 0) {
+				while(l%i == 0) {
+					theList.add((theList.size()), i);
+					l /= i;
+				}
+			} 
+		}
+		return theList;
 	}
 
 	/**
@@ -419,10 +455,69 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
-		}
 
+			
+			String rotated = "";
+			// create some maps (2), 1 for grabbing an int from a char, one for grabbing a char from an int
+			Map<Character, Integer> firstMap = new HashMap<>();
+			Map<Integer, Character> secondMap = new HashMap<>();
+			
+			firstMap.put('a', 1); firstMap.put('b', 2); firstMap.put('c', 3); firstMap.put('d', 4); firstMap.put('e', 5); firstMap.put('f', 6); 
+			firstMap.put('g', 7); firstMap.put('h', 8); firstMap.put('i', 9); firstMap.put('j', 10); firstMap.put('k', 11); firstMap.put('l', 12); 
+			firstMap.put('m', 13); firstMap.put('n', 14); firstMap.put('o', 15); firstMap.put('p', 16); firstMap.put('q', 17); firstMap.put('r', 18); 
+			firstMap.put('s', 19); firstMap.put('t', 20); firstMap.put('u', 21); firstMap.put('v', 22); firstMap.put('w', 23); firstMap.put('x', 24); 
+			firstMap.put('y', 25); firstMap.put('z', 26);
+			firstMap.put('A', 101); firstMap.put('B', 102); firstMap.put('C', 103); firstMap.put('D', 104); firstMap.put('E', 105); firstMap.put('F', 106); 
+			firstMap.put('G', 107); firstMap.put('H', 108); firstMap.put('I', 109); firstMap.put('J', 110); firstMap.put('K', 111); firstMap.put('L', 112); 
+			firstMap.put('M', 113); firstMap.put('N', 114); firstMap.put('O', 115); firstMap.put('P', 116); firstMap.put('Q', 117); firstMap.put('R', 118); 
+			firstMap.put('S', 119); firstMap.put('T', 120); firstMap.put('U', 121); firstMap.put('V', 122); firstMap.put('W', 123); firstMap.put('X', 124); 
+			firstMap.put('Y', 125); firstMap.put('Z', 126);
+			
+			
+			secondMap.put(1, 'a'); secondMap.put(2,  'b'); secondMap.put(3, 'c'); secondMap.put(4,  'd'); secondMap.put(5, 'e'); secondMap.put(6,  'f'); 
+			secondMap.put(7, 'g'); secondMap.put(8,  'h'); secondMap.put(9, 'i'); secondMap.put(10,  'j'); secondMap.put(11, 'k'); secondMap.put(12,  'l'); 
+			secondMap.put(13, 'm'); secondMap.put(14,  'n'); secondMap.put(15, 'o'); secondMap.put(16,  'p'); secondMap.put(17, 'q'); secondMap.put(18,  'r'); 
+			secondMap.put(19, 's'); secondMap.put(20,  't'); secondMap.put(21, 'u'); secondMap.put(22,  'v'); secondMap.put(23, 'w'); secondMap.put(24,  'x');
+			secondMap.put(25, 'y'); secondMap.put(26,  'z');
+			secondMap.put(101, 'A'); secondMap.put(102,  'B'); secondMap.put(103, 'C'); secondMap.put(104,  'D'); secondMap.put(105, 'E'); secondMap.put(106,  'F'); 
+			secondMap.put(107, 'G'); secondMap.put(108,  'H'); secondMap.put(109, 'I'); secondMap.put(110,  'J'); secondMap.put(111, 'K'); secondMap.put(112,  'L'); 
+			secondMap.put(113, 'M'); secondMap.put(114,  'N'); secondMap.put(115, 'O'); secondMap.put(116,  'P'); secondMap.put(117, 'Q'); secondMap.put(118,  'R'); 
+			secondMap.put(119, 'S'); secondMap.put(120,  'T'); secondMap.put(121, 'U'); secondMap.put(122,  'V'); secondMap.put(123, 'W'); secondMap.put(124,  'X');
+			secondMap.put(125, 'Y'); secondMap.put(126,  'Z');
+			
+			// eliminate no change rotations
+			if(this.key == 0 || this.key == 26) {
+				return string;
+			}
+			
+			// begin iterating through the string
+			for(int i = 0; i < string.length(); i++) {
+				// iterate over non letters and throw them onto the new string 'rotated'
+				if(string.charAt(i) == ' ' || string.charAt(i) == ','|| string.charAt(i) == '\'' ||
+						string.charAt(i) == '.' || string.charAt(i) == '?'|| string.charAt(i) == '!' ||
+						string.charAt(i) == '0' || string.charAt(i) == '1'|| string.charAt(i) == '2' ||
+						string.charAt(i) == '3' || string.charAt(i) == '4'|| string.charAt(i) == '5' ||
+						string.charAt(i) == '6' || string.charAt(i) == '7'|| string.charAt(i) == '8' ||
+						string.charAt(i) == '9' || string.charAt(i) == '('|| string.charAt(i) == ')' ||
+						string.charAt(i) == '\\' || string.charAt(i) == '/'|| string.charAt(i) == '\"' ||
+						string.charAt(i) == '&' || string.charAt(i) == '%' || string.charAt(i) == '@') {
+					rotated += string.charAt(i);
+				} else {
+					// apply rotation to the value of the character
+					int x = (firstMap.get(string.charAt(i)) + this.key);
+					// rotate around to the beginning 
+					if((x >= 127) || ((x < 101) && (x > 26))) {
+						x -= 26;
+						rotated += secondMap.get(x);
+					} else {
+						// if don't need to rotate
+						x = (firstMap.get(string.charAt(i)) + this.key);
+						rotated += secondMap.get(x);
+					}
+				}
+			}
+			return rotated;
+		}
 	}
 
 	/**
