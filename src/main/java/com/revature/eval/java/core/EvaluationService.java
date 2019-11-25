@@ -11,7 +11,7 @@ import java.util.Map;
 public class EvaluationService {
 
 	/*
-	 * Completed:1, , 3, 4, 5, 6, 7 not required, , 9, 10, 11
+	 * Completed:1, , 3, 4, 5, 6, 7 not done yet- but not required, 8, 9, 10, 11, 12, 13, 14, 15, 
 	 */
 	
 	/**
@@ -355,8 +355,52 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+
+		// take out and split on spaces
+		String[] arr = string.split(" ");
+		//maybe need a temp string holder?
+		String string2 = "";
+		String temp = "";
+		String q = "";
+		// iterate over each word
+		for(int i = 0; i < arr.length; i++) {
+			// conditional statements starting at most specific
+			//q
+			//if q - move char 0 and char 1 to end of word - starting substring 2
+			if((arr[i].charAt(0) == 'q') || (arr[i].charAt(0) == 'Q')) {
+				q += arr[i].charAt(0);
+				q += arr[i].charAt(1);
+				arr[i] = (arr[i].substring(2)) + q + "ay";
+			}
+			// now vowels - add on an 'ay' to end of word
+			else if ((arr[i].charAt(0) == 'a') || (arr[i].charAt(0) == 'A') || (arr[i].charAt(0) == 'e') || (arr[i].charAt(0) == 'E') 
+					|| (arr[i].charAt(0) == 'i') || (arr[i].charAt(0) == 'I') || (arr[i].charAt(0) == 'o') || (arr[i].charAt(0) == 'O')
+					|| (arr[i].charAt(0) == 'u') || (arr[i].charAt(0) == 'U')) {
+				arr[i] += "ay";
+			} 
+			// now the rest/consonants -- move each consonant to back of word , so iterate over word until hit a vowel
+			// then at end tack on an 'ay' to end
+			else {
+				for (int j=0; j < arr[i].length(); j++) {
+					if ((arr[i].charAt(j) == 'a') || (arr[i].charAt(j) == 'A') || (arr[i].charAt(j) == 'e') || (arr[i].charAt(j) == 'E') 
+					|| (arr[i].charAt(j) == 'i') || (arr[i].charAt(j) == 'I') || (arr[i].charAt(j) == 'o') || (arr[i].charAt(j) == 'O')
+					|| (arr[i].charAt(j) == 'u') || (arr[i].charAt(j) == 'U')) {
+						// do something at the end here
+						arr[i] = arr[i].substring(j) + temp + "ay";
+						temp = "";
+						break;
+					}
+					// what to do if letter is consonant
+					else {
+						temp += arr[i].charAt(j);
+					}
+				}
+			}
+			
+		}
+		// concat string back together to return a string
+		string2 = String.join(" ", arr);
+		return string2;
 	}
 
 	/**
@@ -532,10 +576,36 @@ public class EvaluationService {
 	 * @param i
 	 * @return
 	 */
-	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	public static int calculateNthPrime(int i) {
+		// create an array of all primes in order
+		List<Integer> primes = new ArrayList<>();
+		// iterate over every number, starting at 2, and see whether it is prime, 
+		// throw primes into 'primes' array, until primes.length = i-1
+		if (i < 1) {throw new IllegalArgumentException("input must be positive");
+		}
+		
+		for(int j = 2; primes.size() <= i; j++) {
+			if(isPrime(j)) {
+				primes.add(j);
+				//System.out.println(primes);
+			}
+		} 
+		return primes.get((i - 1));
+	} 
+	// helper method to determine if is prime
+	public static boolean isPrime(int i) {
+		boolean prime;
+		int j = 2;
+		while(j <= i/2) {
+			if(i % j == 0) {
+				return false;
+			} else {
+				j++;
+			}
+		}
+		return true;
 	}
+	
 
 	/**
 	 * 13 & 14. Create an implementation of the atbash cipher, an ancient encryption
@@ -570,19 +640,65 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			// make a map of all the reverse values
+			// make a empty string to store output
+			// iterate over input 'string', check if each value is contained in map, 
+			//if(its contained) {retrieve value and concat onto string} else {skip}
+			// also need to add spaces after every 5 letters
+			String input = string.toLowerCase();
+			String output = new String("");
+			
+			// map out the cipher
+			Map<Character, Character> encodeIt = new HashMap<>();
+			encodeIt.put('a', 'z'); encodeIt.put('b', 'y'); encodeIt.put('c', 'x'); encodeIt.put('d', 'w'); encodeIt.put('e', 'v'); 
+			encodeIt.put('f', 'u'); encodeIt.put('g', 't'); encodeIt.put('h', 's'); encodeIt.put('i', 'r'); encodeIt.put('j', 'q'); 
+			encodeIt.put('k', 'p'); encodeIt.put('l', 'o'); encodeIt.put('m', 'n'); encodeIt.put('n', 'm'); encodeIt.put('o', 'l'); 
+			encodeIt.put('p', 'k'); encodeIt.put('q', 'j'); encodeIt.put('r', 'i'); encodeIt.put('s', 'h'); encodeIt.put('t', 'g'); 
+			encodeIt.put('u', 'f'); encodeIt.put('v', 'e'); encodeIt.put('w', 'd'); encodeIt.put('x', 'c'); encodeIt.put('y', 'b');
+			encodeIt.put('z', 'a'); encodeIt.put('0', '0'); encodeIt.put('1', '1'); encodeIt.put('2', '2'); encodeIt.put('3', '3');
+			encodeIt.put('4', '4'); encodeIt.put('5', '5'); encodeIt.put('6', '6'); encodeIt.put('7', '7'); encodeIt.put('8', '8');
+			encodeIt.put('9', '9');
+			
+			int space = 0;
+			// iterate over every char of the input String, if it is in the map, add the value to output string
+			for(int i = 0; i < input.length(); i++) {
+				if(encodeIt.containsKey(input.charAt(i))) {
+					output += encodeIt.get(input.charAt(i));
+					space++;
+					if(space % 5 == 0) {
+						output += " ";
+					}
+				}
+			}
+			if((output.charAt((output.length() - 1))) == ' ') {
+				output= output.substring(0, output.length() - 1);
+			}
+			return output;
 		}
-
-		/**
-		 * Question 14
-		 * 
-		 * @param string
-		 * @return
-		 */
+		
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			// take out spaces
+			// make a map of opposite values
+			// iterate over every char of string and add value to output string
+			String output = "";
+			String input = string.replace(" ", "").toLowerCase();
+			
+			// create my map
+			Map<Character, Character> decodeIt = new HashMap<>();
+			decodeIt.put('z', 'a'); decodeIt.put('y', 'b'); decodeIt.put('x', 'c'); decodeIt.put('w', 'd'); decodeIt.put('v', 'e');
+			decodeIt.put('u', 'f'); decodeIt.put('t', 'g'); decodeIt.put('s', 'h'); decodeIt.put('r', 'i'); decodeIt.put('q', 'j'); 
+			decodeIt.put('p', 'k'); decodeIt.put('o', 'l'); decodeIt.put('n', 'm'); decodeIt.put('m', 'n'); decodeIt.put('l', 'o'); 
+			decodeIt.put('k', 'p'); decodeIt.put('j', 'q'); decodeIt.put('i', 'r'); decodeIt.put('h', 's'); decodeIt.put('g', 't'); 
+			decodeIt.put('f', 'u'); decodeIt.put('e', 'v'); decodeIt.put('d', 'w'); decodeIt.put('c', 'x'); decodeIt.put('b', 'y'); 
+			decodeIt.put('a', 'z'); decodeIt.put('0', '0'); decodeIt.put('1', '1'); decodeIt.put('2', '2'); decodeIt.put('3', '3'); 
+			decodeIt.put('4', '4'); decodeIt.put('5', '5'); decodeIt.put('6', '6'); decodeIt.put('7', '7'); decodeIt.put('8', '8'); 
+			decodeIt.put('9', '9');
+			
+			//iterate over each char and decipher, concat onto 'output' string
+			for(int i = 0; i < input.length(); i++) {
+				output += decodeIt.get(input.charAt(i));
+			}
+			return output;
 		}
 	}
 
@@ -596,7 +712,7 @@ public class EvaluationService {
 	 * and can be checked for their validity by the following formula:
 	 * 
 	 * (x1 * 10 + x2 * 9 + x3 * 8 + x4 * 7 + x5 * 6 + x6 * 5 + x7 * 4 + x8 * 3 + x9
-	 * * 2 + x10 * 1) mod 11 == 0 If the result is 0, then it is a valid ISBN-10,
+	 * * 2 + x10 * 1) % 11 == 0 If the result is 0, then it is a valid ISBN-10,
 	 * otherwise it is invalid.
 	 * 
 	 * Example Let's take the ISBN-10 3-598-21508-8. We plug it in to the formula,
@@ -608,9 +724,41 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
+	
 	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		// remove dashes
+		// check to make sure all 0-9 and also X - if not return false
+		// when on the last iteration, check if x, if so, replace with a "10", somehow..
+		// or increase the output digit that you % 11 to check boolean by 10
+		int sum = 0;
+		int counter = 10;
+
+		String number = string.replace("-", "");
+
+		for (int i = 0; i < number.length(); i++)
+
+			if ((number.charAt(i) == '0') || (number.charAt(i) == '1') || (number.charAt(i) == '2')
+					|| (number.charAt(i) == '3') || (number.charAt(i) == '4') || (number.charAt(i) == '5')
+					|| (number.charAt(i) == '6') || (number.charAt(i) == '7') || (number.charAt(i) == '8')
+					|| (number.charAt(i) == '9') || (number.charAt(i) == 'X')) {
+				{
+					if (number.charAt(i) == 'X') {
+						sum += 10;
+						counter--;
+					} else {
+						sum += (Integer.parseInt(String.valueOf((number.charAt(i))))   * counter);
+						counter--;
+					}
+				}
+			} else {
+				return false;
+			}
+
+		if (sum % 11 == 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
