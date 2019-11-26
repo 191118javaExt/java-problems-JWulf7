@@ -4,14 +4,16 @@ import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EvaluationService {
 
 	/*
-	 * Completed:1, , 3, 4, 5, 6, 7 not done yet- but not required, 8, 9, 10, 11, 12, 13, 14, 15, 
+	 * Completed:1, 2, 3, 4, 5, 6, 7 not done yet- but not required, 8, 9, 10, 11, 12, 13, 14, 15, 16, , 18, 19
 	 */
 	
 	/**
@@ -47,24 +49,17 @@ public class EvaluationService {
 
 		String acr = new String("");
 		acr += phrase.charAt(0);
-		int i = 1;
-		int j = 1;
-		while(i < phrase.length() && i != 0) {
-			String remainder = phrase.substring(i + 1 + j );  // maybe take away + 1  ~~~ also added + j 
-			acr += phrase.charAt(remainder.indexOf(" ") + 1);
-			j = i + 1;
-			i += (remainder.indexOf(" ") +1 + j);
+		phrase = phrase.replace("-", " ");
+		int bigIndex = 1;
+		int indexDiff = 0;
+		
+		while((bigIndex + indexDiff) <= phrase.length()) {
+			String remainder = phrase.substring(bigIndex);
+			indexDiff = (bigIndex - (remainder.indexOf(" ")) * -1);
+			acr += remainder.charAt((remainder.indexOf(" ") + 1));
+			bigIndex += (remainder.indexOf(" ") +1);
 			
 		}
-		
-		
-		/*
-		for(int i = 0; i < phrase.length(); i++) {
-			i += phrase.indexOf(" ") + 1
-		}
-		*/
-			
-			
 		return acr.toUpperCase();
 	}
 
@@ -775,8 +770,21 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		// take out spaces
+		// create a set with every letter as an element
+		// if set == 26 good
+		String input = string.replace(" ", "");
+
+		Set<Character> abc = new HashSet<>();
+
+		for (int i = 0; i < input.length(); i++) {
+			abc.add(input.charAt(i));
+		}
+		if (abc.size() == 26) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -806,8 +814,25 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		// initiate a total which is sum of all
+		// iterate over each int value in the set
+		// while multiple is < i {add multiples to total}
+		Set<Integer> numsToAdd = new HashSet<>();
+		
+		int total = 0;
+		for(int j = 0; j < set.length; j++) {
+			int multiplier = 1;
+			int add = 0;
+			while((add + set[j]) < i) {
+				add = set[j] * multiplier;
+				multiplier++;
+				numsToAdd.add(add);
+			}
+		}
+		for(int j : numsToAdd) {
+			total += j;
+		}
+		return total;
 	}
 
 	/**
@@ -847,8 +872,65 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		// remove dashes, remove spaces
+		// check if all valid input (all numbers) if valid, proceed
+		// get length, also maybe make some sort of counter that begins on index/length
+		// of 1 from the right,
+		// and decrements -2 each time
+		// get every 2nd digit, starting at 1 from right, double it, if > 9, -9, throw
+		// into a list
+		// throw every 2nd digit, starting at the right, into the list
+		// sum all
+		// if sum % 10 == 0, valid
+
+		string = string.replace(" ", "");
+		List<Integer> toAdd = new ArrayList<>();
+		int l = string.length();
+		int f = l - 1;
+		int sum = 0;
+		
+		// check for valid digits
+		for (int i = 0; i < l; i++) {
+			if ((string.charAt(i) == '0') || (string.charAt(i) == '1') || (string.charAt(i) == '2')
+					|| (string.charAt(i) == '3') || (string.charAt(i) == '4') || (string.charAt(i) == '5')
+					|| (string.charAt(i) == '6') || (string.charAt(i) == '7') || (string.charAt(i) == '8')
+					|| (string.charAt(i) == '9')) {
+
+			} else {
+				return false;
+			}
+		}
+		// so, all numbers are valid to this point
+		// now grab the 2nd from right numbers, *2 with a condition less than 9, and add them to arraylist 'toAdd'
+		while(f >= 1) {
+			if((Integer.parseInt(String.valueOf(string.charAt(f - 1)))) * 2 > 9 ) {
+				toAdd.add(((Integer.parseInt(String.valueOf(string.charAt(f - 1)))) * 2) -9);
+				f -= 2;
+			} 
+			else {
+				toAdd.add(((Integer.parseInt(String.valueOf(string.charAt(f - 1)))) * 2));
+				f -= 2;
+			}
+		}
+		// now grab the 2nd number starting at the end, and throw that value onto the array 'toAdd'
+		f = l - 1;
+		while(f >= 1) {
+			toAdd.add(Integer.parseInt(String.valueOf(string.charAt(f))));
+			f -= 2;
+		}
+		
+		// sum all the numbers in the array 'toAdd'
+		for(int i: toAdd) {
+			sum += i;
+		}
+		
+		// check sums validity
+		if(sum % 10 == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**
