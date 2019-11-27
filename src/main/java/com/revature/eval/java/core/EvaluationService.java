@@ -1,5 +1,7 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -13,7 +15,7 @@ import java.util.Set;
 public class EvaluationService {
 
 	/*
-	 * Completed:1, 2, 3, 4, 5, 6, 7 not done yet- but not required, 8, 9, 10, 11, 12, 13, 14, 15, 16, , 18, 19
+	 * Completed:1, 2, 3, 4, 5, 6, 7 not done yet- but not required, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
 	 */
 	
 	/**
@@ -448,7 +450,7 @@ public class EvaluationService {
 		List<Long> theList = new ArrayList<Long>();
 		//instantiate original number
 		Long orig = l;
-		for(Long i=2L; i <= orig/2; i++) {
+		for(Long i=2L; i <= (orig/2) + 1; i++) {
 			if(l%i == 0) {
 				while(l%i == 0) {
 					theList.add((theList.size()), i);
@@ -796,7 +798,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
+		if(given instanceof LocalDate) {
+			LocalDate date = LocalDate.of(((LocalDate) given).getYear(), ((LocalDate) given).getMonth(), ((LocalDate) given).getDayOfMonth());
+			LocalDateTime dateTime = date.atStartOfDay();
+			dateTime = dateTime.plusSeconds(1000000000L);
+			return dateTime;
+		}
+		else if (given instanceof LocalDateTime) {
+			LocalDateTime date = (LocalDateTime) given;
+			date = date.plusSeconds(1000000000L);
+			return date;
+		}
 		return null;
 	}
 
@@ -960,8 +972,42 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
+	public static boolean numCheck(String string) {
+		return string.matches("-?\\d+(\\.\\d+)?");
+	}
+	
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
+		// break down the string to essentials
+		String input = string.substring(8);
+		input = input.replace("?", "");
+		
+		//get each element by itself
+		String[] elements = input.split(" ");
+		int[] numbers = new int[2];
+		
+		String operator = "";
+		int j = 0;
+		for(int i = 0; i < elements.length; i++) {
+			if(numCheck(elements[i])) {
+				numbers[j] = Integer.parseInt(elements[i]);
+				j++;
+			} 
+			else if ((!numCheck(elements[i])) && !(elements[i].equals("by"))) {
+				operator += elements[i];
+			}
+			else { 
+			}
+		}
+		switch (operator) {
+		case "plus" :
+			return (numbers[0] + numbers[1]);
+		case "minus" :
+			return (numbers[0] - numbers[1]);
+		case "multiplied" :
+			return (numbers[0] * numbers[1]);
+		case "divided" :
+			return (numbers[0] / numbers [1]);
+		}
 		return 0;
 	}
 

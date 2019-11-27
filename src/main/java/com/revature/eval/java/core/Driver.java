@@ -18,33 +18,24 @@ import java.util.Set;
 public class Driver {
 
 	// write code to test method here
+	
 
-	public static Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		//TemporalUnit unit = (TemporalUnit) given;
-		//ChronoUnit time = (ChronoUnit) unit;
-		//unit = (TemporalUnit) time.addTo((Temporal)(TemporalUnit)ChronoUnit.SECONDS, 109000000000L);
-				//given.plus(109000000000L, Seconds);
-		
-		
-		return null;//(Temporal) unit;
-	}
 	
 
 	public static void main(String[] args) {
 
 		// test-run your method here
+/*
+		System.out.println(calculatePrimeFactorsOf(2L));
 
-		System.out.println(getGigasecondDate(LocalDate.of(2011, Month.APRIL, 25)));
+		System.out.println(solveWordProblem("What is -1 plus -10?"));
 
-		System.out.println(getGigasecondDate(LocalDate.of(1977, Month.JUNE, 13)));
+		System.out.println(solveWordProblem("What is 4 minus -12?"));
 
-		System.out.println(getGigasecondDate(LocalDate.of(1959, Month.JULY, 19)));
+		System.out.println(solveWordProblem("What is -3 multiplied by 25?"));
 
-		System.out.println(getGigasecondDate(LocalDateTime.of(2015, Month.JANUARY, 24, 22, 0, 0)));
-
-		System.out.println(getGigasecondDate(LocalDateTime.of(2015, Month.JANUARY, 24, 23, 59, 59)));
-
+		System.out.println(solveWordProblem("What is 33 divided by -3?"));
+*/
 	}
 
 }
